@@ -1,1 +1,1 @@
-# colmap-lanit-SS2022-
+https://colmap.github.io/
