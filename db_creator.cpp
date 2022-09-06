@@ -7,21 +7,19 @@
 #include "exe/gui.h"
 #include "feature/matching.h"
 
-int main() {
+int main(int argc, char *argv[]) {
 
     ///create new database
     colmap::OptionManager options;
     options.AddDatabaseOptions();
-    std::string path_to_database("/home/nick/project/1.db");
-    colmap::Database db1(path_to_database);
+    colmap::Database db1(argv[1]);
 
     ///reference database
-    std::string path_to_database("/home/nick/project/ref/database.db");
-    colmap::Database db(path_to_database);
+    std::string path_to_database1(argv[2]);
+    colmap::Database db(path_to_database1);
 
     ///read features
-    colmap::Image im = db.ReadImageWithName("0000000151.tiff");
-    //std::cout << im.ImageId() << "\n";
+    colmap::Image im = db.ReadImageWithName(argv[3]);
     colmap::Camera camera = db.ReadCamera(im.CameraId());
     colmap::FeatureDescriptors descriptors = db.ReadDescriptors(im.ImageId());
     colmap::FeatureKeypoints keypoints = db.ReadKeypoints(im.ImageId());
@@ -29,7 +27,7 @@ int main() {
     ///read bitmap
     colmap::Bitmap bp;
     colmap::BitmapColor <uint8_t> *color;
-    bp.Read("/home/nick/project/masks/0000000151.tiff.png", false);
+    bp.Read(argv[4], false);
 
     colmap::FeatureKeypoints kp;
 
@@ -54,7 +52,9 @@ int main() {
         bp.GetPixel(k_x, k_y, color);
         auto col = *color;
         if (col.r == 255) {
-            dp(k) = descriptors(i);
+            for(int f = 0; f < 128; ++f) {
+                dp(k, f) = descriptors(i, f);
+            }
             k++;
         }
     }
