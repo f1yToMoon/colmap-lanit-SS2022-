@@ -9,16 +9,13 @@
 
 
 int main() {
-    std::string path_to_database("/home/nick/project/1.db");
+    std::string path_to_database("/home/nick/project/TEST.db");
     colmap::Database db_track(path_to_database);
 
     colmap::SiftMatchingOptions sift_m_opt;
-    sift_m_opt.use_gpu = false;
-    sift_m_opt.num_threads = 1;
-    colmap::FeatureMatcherCache m_cache(1000, &db_track);
     colmap::ExhaustiveMatchingOptions ex_opt;
     ex_opt.block_size = db_track.NumImages();
-    colmap::ExhaustiveFeatureMatcher ex_matcher(ex_opt, sift_m_opt, "/home/nick/project/1.db");
+    colmap::ExhaustiveFeatureMatcher ex_matcher(ex_opt, sift_m_opt, path_to_database);
     ex_matcher.Start();
 
 }
