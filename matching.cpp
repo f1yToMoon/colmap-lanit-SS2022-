@@ -8,8 +8,8 @@
 #include "feature/matching.h"
 
 
-int main() {
-    std::string path_to_database("/home/nick/project/TEST.db");
+int main(int argc, char *argv[]) {
+    std::string path_to_database(argv[1]);
     colmap::Database db_track(path_to_database);
 
     colmap::SiftMatchingOptions sift_m_opt;
